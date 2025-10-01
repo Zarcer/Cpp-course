@@ -20,7 +20,6 @@ find_package(BZip2 REQUIRED)
 
 target_link_libraries(libcompressor PRIVATE ZLIB::ZLIB BZip2::BZip2)
 
-# Doxygen (если установлен)
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
@@ -32,7 +31,6 @@ if(DOXYGEN_FOUND)
             COMMENT "Generating API documentation with Doxygen")
 endif()
 
-# Установка
 install(TARGETS libcompressor
         EXPORT libcompressorTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

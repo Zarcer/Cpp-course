@@ -8,12 +8,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS YES)
 include(GNUInstallDirs)
 enable_testing()
 
-# Подключаем подпроекты
 add_subdirectory(libcompressor)
 add_subdirectory(compressor)
 add_subdirectory(libcompressor/tests)
 
-# clang-format
 file(GLOB_RECURSE ALL_SOURCE_FILES
         ${CMAKE_SOURCE_DIR}/libcompressor/src/*.cpp
         ${CMAKE_SOURCE_DIR}/libcompressor/include/*.hpp
@@ -27,7 +25,6 @@ if(CLANG_FORMAT_EXE)
             COMMENT "Run clang-format on sources")
 endif()
 
-# clang-tidy
 find_program(CLANG_TIDY_EXE NAMES clang-tidy)
 if(CLANG_TIDY_EXE)
     add_custom_target(tidy
