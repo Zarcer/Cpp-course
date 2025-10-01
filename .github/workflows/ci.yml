@@ -16,13 +16,19 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
+
     - name: Install Conan
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install conan
+      run: python -m pip install conan
+
     - name: Conan remote update
       run: |
         conan remote update conancenter --url="https://center2.conan.io" || true
+
+    - name: Conan detect profile
+      run: conan profile detect
+
     - name: Conan install
       run: |
         conan install . --output-folder=build --build=missing
