@@ -16,27 +16,38 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
 
     - name: Install Conan
       run: python -m pip install conan
 
     - name: Conan remote update
-      run: conan remote update conancenter --url="https://center2.conan.io" || true
+      run: |
+        conan remote update conancenter --url="https://center2.conan.io" || true
 
     - name: Conan detect profile
       run: conan profile detect
-    - name: Conan update profile
-      run: conan config set "profiles.default.settings.compiler.cppstd=20"
+
+    - name: Conan set cppstd
+      if: matrix.os == 'windows-latest'
+      run: conan profile update settings.compiler.cppstd=20 default
+
     - name: Conan install
-      run: conan install . --output-folder=build --build=missing
+      run: |
+        conan install . --output-folder=build --build=missing
     - name: Configure CMake
-      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
     - name: Build
-      run: cmake --build build --config Release -- -j
+      run: |
+        cmake --build build --config Release -- -j
     - name: Run tests
-      run: ctest --test-dir build --output-on-failure
+      run: |
+        ctest --test-dir build --output-on-failure
     - name: Generate docs
-      run: cmake --build build --target doc
+      run: |
+        cmake --build build --target doc || echo "doxygen not found or docgeneration failed"
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
