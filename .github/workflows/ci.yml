@@ -38,7 +38,7 @@ jobs:
       run: sudo apt-get install -y doxygen graphviz
 
     - name: Conan install
-      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
+      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20 -g "CMakeToolchain"
 
     - name: Configure CMake
       run: |
