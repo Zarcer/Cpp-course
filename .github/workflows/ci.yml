@@ -39,7 +39,7 @@ jobs:
 
     - name: Conan install(Windows)
       if: runner.os == 'Windows'
-      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20 --build=!=doxygen
+      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20 --build=!doxygen
 
     - name: Configure CMake
       run: |
