@@ -33,13 +33,12 @@ jobs:
       if: runner.os == 'Windows'
       run: choco install doxygen.install --yes --no-progress
 
-    - name: Conan install(Linux)
+    - name: Install doxygen(Linux)
       if: runner.os == 'Linux'
-      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
+      run: sudo apt-get install -y doxygen graphviz
 
-    - name: Conan install(Windows)
-      if: runner.os == 'Windows'
-      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20 --build=!doxygen
+    - name: Conan install
+      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
 
     - name: Configure CMake
       run: |
