@@ -29,9 +29,13 @@ jobs:
     - name: Conan detect profile
       run: conan profile detect
 
+    - name: Install doxygen(Windows)
+      if: runner.os == 'Windows'
+      run: choco install doxygen.install --yes --no-progress
+
     - name: Conan install
-      run: |
-        conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
+      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
+
     - name: Configure CMake
       run: |
         cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
@@ -43,7 +47,7 @@ jobs:
         ctest --test-dir build --output-on-failure
     - name: Generate docs
       run: |
-        cmake --build build --target doc || echo "doxygen not found or docgeneration failed"
+        cmake --build build --target doc
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
