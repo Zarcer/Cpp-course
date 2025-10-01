@@ -28,22 +28,18 @@ jobs:
 
     - name: Conan detect profile
       run: conan profile detect
-
+    - name: Conan update profile
+      run: conan profile update settings.compiler.cppstd=20 default
     - name: Conan install
-      run: |
-        conan install . --output-folder=build --build=missing
+      run: conan install . --output-folder=build --build=missing
     - name: Configure CMake
-      run: |
-        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
     - name: Build
-      run: |
-        cmake --build build --config Release -- -j
+      run: cmake --build build --config Release -- -j
     - name: Run tests
-      run: |
-        ctest --test-dir build --output-on-failure
+      run: ctest --test-dir build --output-on-failure
     - name: Generate docs
-      run: |
-        cmake --build build --target doc || echo "doxygen not found or docgeneration failed"
+      run: cmake --build build --target doc
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
