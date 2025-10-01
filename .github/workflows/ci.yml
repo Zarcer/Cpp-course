@@ -31,7 +31,7 @@ jobs:
 
     - name: Conan install
       run: |
-        conan install . --output-folder=build --build=missing -s compiler.cppstd=20
+        conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
     - name: Configure CMake
       run: |
         cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
