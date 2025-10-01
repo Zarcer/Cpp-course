@@ -33,8 +33,13 @@ jobs:
       if: runner.os == 'Windows'
       run: choco install doxygen.install --yes --no-progress
 
-    - name: Conan install
+    - name: Conan install(Linux)
+      if: runner.os == 'Linux'
       run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20
+
+    - name: Conan install(Windows)
+      if: runner.os == 'Windows'
+      run: conan install . --output-folder=build --build=missing -s:h compiler.cppstd=20 -s:b compiler.cppstd=20 --build=!=doxygen
 
     - name: Configure CMake
       run: |

@@ -8,5 +8,5 @@ gtest/1.17.0
 CMakeToolchain
 CMakeDeps
 
-[tool_requires:linux]
+[tool_requires]
 doxygen/1.14.0
