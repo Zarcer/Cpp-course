@@ -45,10 +45,15 @@ jobs:
         cmake -S . -B build -DCMAKE_BUILD_TYPE=Release "-DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake"
     - name: Build
       run: |
-        cmake --build build --config Release -- -j
-    - name: Run tests
+        cmake --build build --config Release
+    - name: Run tests (Linux)
+      if: runner.os == 'Linux'
       run: |
         ctest --test-dir build --output-on-failure
+    - name: Run tests (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        ctest --test-dir build -C Release --output-on-failure
     - name: Generate docs
       run: |
         cmake --build build --target doc
